@@ -214,3 +214,7 @@ footer nav ul {
 	cursor: pointer;
 }
 
+.btn_filters.selected {
+	background-color: #1D6154;
+	color: white;
+  }
