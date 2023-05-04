@@ -50,6 +50,7 @@ table {
 body {
 	max-width: 1140px;
 	margin:auto;
+	margin-top: 4rem;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
 }
@@ -113,6 +114,40 @@ nav a:hover {
 li:hover {
 	color: #B1663C;
 }
+
+#user-banner {
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #000000;
+	height: 59px;
+	z-index: 1000; /* au dessus de tout */
+}
+
+#user-banner p {
+	margin: 0 20px;
+	color: #ffffff;
+}
+
+#user-banner i {
+	color: #ffffff;
+}
+
+#user-banner .btn-pub {
+	background-color: #ffffff;
+	color: #000000;
+	padding: 10px 20px;
+	border-radius: 60px;
+}
+
+#user-banner .btn-pub:hover {
+	cursor: pointer;
+}
+
 #introduction {
 	display: flex;
 	align-items: center;

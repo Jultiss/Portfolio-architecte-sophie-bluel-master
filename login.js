@@ -35,8 +35,6 @@ document.querySelector('.login').addEventListener('submit', async (event) => {
         localStorage.setItem('userToken', token);
         window.location.href = 'index.html';
 
-        // Affiche un message indiquant que l'utilisateur est connecté.
-        alert('Vous êtes connecté.');
       } else {
 
         // Si aucun token n'est reçu

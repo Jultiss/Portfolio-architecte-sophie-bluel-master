@@ -52,3 +52,16 @@ filterWorksHR.addEventListener("click", function() {
   const filteredData = loadedData.filter(item => item.category.id === 3);
   displayWork(filteredData);
 });
+
+// display banner User Connecté //
+
+function showUserBanner() {
+  const userToken = localStorage.getItem("userToken");
+
+  if (userToken) {
+    const userBanner = document.getElementById('user-banner');
+    userBanner.style.display = 'flex';
+  }
+}
+
+showUserBanner();
