@@ -56,7 +56,7 @@ body {
 header {
 	display: flex;
 	justify-content: space-between;
-	margin: 50px 0
+	margin: 50px 0;
 }
 section {
 	margin: 50px 0
@@ -69,6 +69,11 @@ h1{
 	font-size: 22px;
 	font-weight: 800;
 	color: #B1663C
+}
+
+h1 a {
+	text-decoration: none;
+	color: #B1663C;
 }
 
 h1 > span {
