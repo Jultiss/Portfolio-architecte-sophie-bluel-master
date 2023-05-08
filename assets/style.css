@@ -97,7 +97,7 @@ nav ul {
 
 }
 nav li {
-	padding: 0 10px;
+	padding: 0 5px;
 	font-size: 1.2em;
 }
 
@@ -115,27 +115,38 @@ li:hover {
 	color: #B1663C;
 }
 
+.hidden {
+	display: none;
+}
+
+/* ******  USER BANNER  ****** */
+
 #user-banner {
 	position: fixed;
 	left: 0;
 	right: 0;
 	top: 0;
-	display: flex;
 	justify-content: center;
 	align-items: center;
 	background-color: #000000;
 	height: 59px;
-	z-index: 1000; /* au dessus de tout */
 }
 
-#user-banner p {
-	margin: 0 20px;
+.btn-edit {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	color: #ffffff;
+	margin-right: 1rem;
+	padding-right: 1rem;
+	cursor: pointer;
+
 }
 
-#user-banner i {
-	color: #ffffff;
+.btn-edit i {
+	margin-right: 10px;
 }
+
 
 #user-banner .btn-pub {
 	background-color: #ffffff;
@@ -147,6 +158,172 @@ li:hover {
 #user-banner .btn-pub:hover {
 	cursor: pointer;
 }
+/************* Edit button *************/
+
+#projet-title {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 1rem;
+	gap: 0.5rem;
+  }
+
+.edit-btn-container {
+	display: flex;
+	align-items: center;
+	margin-right: 1rem;
+}
+  
+.edit-btn-container i {
+	margin-right: 5px;
+}
+  
+/*****************  MODAL 1  *****************/
+
+.modal-container {
+	display: none;
+	position: fixed;
+	top: 0;
+	width: 100vw;
+	height: 100vh;
+	margin: O;
+}
+
+.modal-container.active {
+	display: block;
+}
+
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.3);
+}
+
+.modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 95%;
+    max-width: 630px;
+    min-width: 630px;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 5px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.close-modal {
+	padding: 8px 10px;
+	border: none;
+	font-size: 18px;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	cursor: pointer;
+	background-color: transparent;
+}
+
+.modal h2 {
+	margin-bottom: 2rem;
+	font-family: 'Work Sans';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 26px;
+	line-height: 30px;
+	text-align: center;
+	
+	color: #000000;
+}
+
+.modal p {
+	margin-bottom: 16px;
+	font-family: 'Syne';
+	font-weight: 400;
+	font-size: 14px;
+	font-style: normal;
+	cursor: pointer;
+}
+
+.gallery-modal {
+	width: 100%;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	grid-column-gap: 6px;
+	grid-row-gap: 6px;
+	border-bottom: 1px solid #B3B3B3;
+	padding-bottom: 3rem;
+}
+
+.gallery-modal img {
+	width: 100%;
+}
+
+.gallery-modal img:hover {
+	cursor: pointer;
+
+}
+
+.modal figure {
+    position: relative;
+}
+
+.modal figcaption {
+	cursor: pointer;
+}
+
+.modal .icon-container {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+.modal .move-icon {
+    display: inline-block;
+    background: black;
+    color: white;
+    font-size: 9px;
+    padding: 5px;
+    cursor: pointer;
+    opacity: 0; /* Rend l'icône initialement invisible */
+}
+
+.modal .delete-icon {
+    display: inline-block;
+    background: black;
+    color: white;
+    font-size: 9px;
+    padding: 5px;
+    cursor: pointer;
+}
+.modal figure:hover .move-icon {
+    opacity: 1; /* Rend l'icône visible lors du survol de l'image */
+}
+
+.valid-btn {
+    width: 179px;
+    height: 36px;
+    background: #1D6154;
+    border-radius: 60px;
+    border: none;
+    font-family: 'Syne';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 19px;
+    color: #FFFFFF;
+    margin-top: 2rem;
+	margin-bottom: 1.5rem;
+    align-self: center;
+	cursor: pointer;
+}
+
 
 #introduction {
 	display: flex;
@@ -173,8 +350,8 @@ li:hover {
 }
 #portfolio h2 {
 	text-align: center;
-	margin-bottom: 1em;
 }
+
 .gallery {
 	width: 100%;
 	display: grid;

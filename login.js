@@ -47,4 +47,26 @@ document.querySelector('.login').addEventListener('submit', async (event) => {
       alert('Une erreur est survenue lors de la connexion. Veuillez réessayer.');
     }
   });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const loginButton = document.querySelector('.login-btn');
+    const logoutButton = document.querySelector('.logout-btn');
   
+    function checkUserStatus() {
+      const userToken = localStorage.getItem('userToken');
+      if (userToken) {
+        // L'utilisateur est connecté, donc afficher le bouton de déconnexion et masquer le bouton de connexion
+        logoutButton.classList.remove('hidden');
+        loginButton.classList.add('hidden');
+      } else {
+        // L'utilisateur est déconnecté, donc afficher le bouton de connexion et masquer le bouton de déconnexion
+        logoutButton.classList.add('hidden');
+        loginButton.classList.remove('hidden');
+      }
+    }
+  
+    if (loginButton) {
+      checkUserStatus();
+    }
+  });
+      

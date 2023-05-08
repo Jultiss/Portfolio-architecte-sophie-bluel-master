@@ -65,3 +65,96 @@ function showUserBanner() {
 }
 
 showUserBanner();
+
+// Affiche des boutons login et logout en fonction de l'état de connexion de l'utilisateur
+// Affiche aussi le bouton "modifier" sur la page des projets
+
+document.addEventListener('DOMContentLoaded', function() {
+  const loginButton = document.querySelector('.login-btn');
+  const logoutButton = document.querySelector('.logout-btn');
+  const editButton = document.createElement('i');
+  const editLabel = document.createElement('p');
+  const projectsTitle = document.querySelector('.projet-title');
+
+  // Configuration de l'icône et du libellé "modifier"
+  editButton.id = 'edit-btn';
+  editButton.className = 'fa-regular fa-pen-to-square', "btn-edit modal-trigger";
+  editButton.style.cursor = 'pointer';
+  editLabel.textContent = 'modifier';
+  editLabel.style.cursor = 'pointer';
+
+  function checkUserStatus() {
+    const userToken = localStorage.getItem('userToken');
+    if (userToken) {
+      // L'utilisateur est connecté, donc ajouter les éléments "modifier"
+      if (projectsTitle) {
+        projectsTitle.parentElement.insertBefore(editLabel, projectsTitle.nextElementSibling);
+        projectsTitle.parentElement.insertBefore(editButton, projectsTitle.nextElementSibling);
+  
+        editButton.addEventListener('click', function() {
+          toggleModal();
+        });
+        editLabel.addEventListener('click', function() {
+          toggleModal();
+        });
+      }
+      logoutButton.classList.remove('hidden');
+      loginButton.classList.add('hidden');
+    } else {
+      // L'utilisateur est déconnecté, donc supprimer les éléments "modifier"
+      if (projectsTitle && projectsTitle.parentElement.contains(editButton)) {
+        projectsTitle.parentElement.removeChild(editButton);
+        projectsTitle.parentElement.removeChild(editLabel);
+      }
+      logoutButton.classList.add('hidden');
+      loginButton.classList.remove('hidden');
+    }
+  }
+  
+  if (logoutButton) {
+    checkUserStatus();
+    logoutButton.addEventListener('click', function logout() {
+      localStorage.removeItem('userToken');
+      if (projectsTitle && projectsTitle.parentElement.contains(editButton)) {
+        projectsTitle.parentElement.removeChild(editButton);
+        projectsTitle.parentElement.removeChild(editLabel);
+      }
+      logoutButton.classList.add('hidden');
+      loginButton.classList.remove('hidden');
+      window.location.href = 'index.html';
+    });
+  }
+});
+
+
+
+// Modal Edition Travaux //
+
+const modalContainer = document.querySelector(".modal-container");
+const modalTriggers = document.querySelectorAll(".modal-trigger");
+
+modalTriggers.forEach(trigger => trigger.addEventListener("click", toggleModal))
+
+function toggleModal() {
+  modalContainer.classList.toggle("active");
+  function displayWorkModal(data) {
+    const modalGalleryEl = document.querySelector(".gallery-modal");
+    modalGalleryEl.innerHTML = data.map(item => `
+      <figure>
+        <img src="${item.imageUrl}" alt="${item.title}" crossorigin="anonymous">
+        <figcaption>éditer</figcaption>
+        <div class="icon-container">
+            <span class="move-icon">
+                <i class="fa-solid fa-arrows-up-down-left-right"></i>
+            </span>
+            <span class="delete-icon">
+                <i class="fa-solid fa-trash-can"></i>
+            </span>
+        </div>
+      </figure>
+    `).join('');
+}
+  
+  displayWorkModal(loadedData);
+}
+
