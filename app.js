@@ -75,6 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const editButton = document.createElement('i');
   const editLabel = document.createElement('p');
   const projectsTitle = document.querySelector('.projet-title');
+  const filters = document.getElementById('filters');
 
   // Configuration de l'icône et du libellé "modifier"
   editButton.id = 'edit-btn';
@@ -100,6 +101,10 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       logoutButton.classList.remove('hidden');
       loginButton.classList.add('hidden');
+      if (filters) {
+        filters.classList.add('hidden');
+        console.log("filters cachés");
+      }
     } else {
       // L'utilisateur est déconnecté, donc supprimer les éléments "modifier"
       if (projectsTitle && projectsTitle.parentElement.contains(editButton)) {
@@ -108,6 +113,10 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       logoutButton.classList.add('hidden');
       loginButton.classList.remove('hidden');
+      if (filters) {
+        filters.classList.remove('hidden');
+        console.log("filters affichés");
+      }
     }
   }
   
@@ -125,7 +134,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
-
 
 
 // Modal Edition Travaux //
@@ -157,4 +165,13 @@ function toggleModal() {
   
   displayWorkModal(loadedData);
 }
+
+// Suppression d'un projet //
+
+// Ajout d'un projet //
+
+
+
+
+
 
