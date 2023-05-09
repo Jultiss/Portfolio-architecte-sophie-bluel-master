@@ -21,7 +21,7 @@ document.querySelector('.login').addEventListener('submit', async (event) => {
   
       // Si la réponse n'est pas ok lance une erreur.
       if (!response.ok) {
-        throw new Error('Erreur lors de la connexion. Vérifiez vos identifiants.');
+        throw new Error('Erreur dans l’identifiant ou le mot de passe');
       }
   
       // Convertit la réponse en objet JSON.
@@ -44,7 +44,7 @@ document.querySelector('.login').addEventListener('submit', async (event) => {
 
       // Si erreur : message d'erreur dans la console et alerte utilisateur.
       console.error('Erreur:', error);
-      alert('Une erreur est survenue lors de la connexion. Veuillez réessayer.');
+      alert('Erreur dans l’identifiant ou le mot de passe');
     }
   });
 

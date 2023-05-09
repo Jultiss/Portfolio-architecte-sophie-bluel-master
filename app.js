@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function checkUserStatus() {
     const userToken = localStorage.getItem('userToken');
     if (userToken) {
-      // L'utilisateur est connecté, donc ajouter les éléments "modifier"
+      // L'utilisateur est connecté, ajouter les éléments "modifier"
       if (projectsTitle) {
         projectsTitle.parentElement.insertBefore(editLabel, projectsTitle.nextElementSibling);
         projectsTitle.parentElement.insertBefore(editButton, projectsTitle.nextElementSibling);
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log("filters cachés");
       }
     } else {
-      // L'utilisateur est déconnecté, donc supprimer les éléments "modifier"
+      // L'utilisateur est déconnecté, supprimer les éléments "modifier"
       if (projectsTitle && projectsTitle.parentElement.contains(editButton)) {
         projectsTitle.parentElement.removeChild(editButton);
         projectsTitle.parentElement.removeChild(editLabel);
@@ -144,11 +144,36 @@ const modalTriggers = document.querySelectorAll(".modal-trigger");
 modalTriggers.forEach(trigger => trigger.addEventListener("click", toggleModal))
 
 function toggleModal() {
+  console.log("Toggle modal");
   modalContainer.classList.toggle("active");
-  function displayWorkModal(data) {
-    const modalGalleryEl = document.querySelector(".gallery-modal");
-    modalGalleryEl.innerHTML = data.map(item => `
-      <figure>
+  displayWorkModal(loadedData);
+}
+
+// Suppression d'un projet //
+async function deleteWork() {
+  console.log("Delete clicked");
+  const workId = this.parentElement.parentElement.parentElement.dataset.id;
+  const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('userToken')}`,
+    },
+  });
+
+  if (response.ok) {
+    console.log('Projet supprimé');
+    const work = document.querySelector(`[data-id="${workId}"]`);
+    work.remove();
+  } else {
+    alert('Une erreur est survenue lors de la suppression du projet.');
+  }
+}
+
+function displayWorkModal(data) {
+  const modalGalleryEl = document.querySelector(".gallery-modal");
+  modalGalleryEl.innerHTML = data.map(item => `
+      <figure data-id="${item.id}">
         <img src="${item.imageUrl}" alt="${item.title}" crossorigin="anonymous">
         <figcaption>éditer</figcaption>
         <div class="icon-container">
@@ -161,12 +186,38 @@ function toggleModal() {
         </div>
       </figure>
     `).join('');
-}
-  
-  displayWorkModal(loadedData);
+
+  // Attache l'événement de suppression à chaque image dans la galerie
+  const deleteIcons = modalGalleryEl.querySelectorAll(".delete-icon");
+  deleteIcons.forEach(icon => icon.addEventListener("click", deleteWork));
+
+  // Attache l'événement de suppression à la galerie elle-même
+  modalGalleryEl.addEventListener('click', (event) => {
+    if (event.target.classList.contains('delete-icon')) {
+      deleteWork.call(event.target);
+    }
+  });
 }
 
-// Suppression d'un projet //
+
+async function deleteWork() {
+  const workId = this.parentElement.parentElement.dataset.id;
+  const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('userToken')}`,
+    },
+  });
+
+  if (response.ok) {
+    alert('Projet supprimé : ' + workId);
+    const work = document.querySelector(`[data-id="${workId}"]`);
+    work.remove();
+  } else {
+    alert('Une erreur est survenue lors de la suppression du projet.');
+  }
+}
 
 // Ajout d'un projet //
 
