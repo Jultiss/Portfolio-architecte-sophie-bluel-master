@@ -219,10 +219,52 @@ async function deleteWork() {
   }
 }
 
-// Ajout d'un projet //
+// Ouverture modale d'ajout d'un projet //
+// Récupération des éléments HTML
+const addWorkTriggerEl = document.querySelector(".valid-btn");
+const addModalEl = document.getElementById("modal-add");
+const editModalEl = document.querySelector(".modal-container");
 
+const backToEditModalBtn = document.querySelector('.back-to-edit-modal');
+const closeAddModalBtn = document.querySelector('#modal-add .close-modal');
+const addPhotoLabel = document.querySelector('.add-photo');
+const loadImgContainer = document.querySelector('.load-img');
 
+addWorkTriggerEl.addEventListener("click", () => {
+  const modalEl = document.querySelector(".modal-container.active");
+  if (modalEl && modalEl.id === "modal-edit") {
+    // Masquer la modale d'édition
+    modalEl.classList.remove("active");
+    // Ouvrir la deuxième modale
+    addModalEl.classList.add("active");
+  }
+});
 
+// Afficher l'aperçu de l'image sélectionnée
+const imageInput = document.getElementById('image');
+imageInput.addEventListener('change', function () {
+  const imageFile = this.files[0];
+  if (imageFile) {
+    const reader = new FileReader();
+    reader.addEventListener('load', function () {
+      const imgPreview = document.createElement('img');
+      imgPreview.src = this.result;
+      loadImgContainer.innerHTML = '';
+      loadImgContainer.appendChild(imgPreview);
+      addPhotoLabel.textContent = '+ Changer photo';
+    });
+    reader.readAsDataURL(imageFile);
+  }
+});
 
+// Fermeture modale d'ajout d'un projet et retour sur Modale édition //
+backToEditModalBtn.addEventListener('click', () => {
+  addModalEl.classList.remove('active');
+  editModalEl.classList.add('active');
+});
 
+closeAddModalBtn.addEventListener('click', () => {
+  addModalEl.classList.remove('active');
+  editModalEl.classList.add('active');
+});
 

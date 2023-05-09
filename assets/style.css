@@ -178,7 +178,7 @@ li:hover {
 	margin-right: 5px;
 }
   
-/*****************  MODAL 1  *****************/
+/*****************  MODAL edition  *****************/
 
 .modal-container {
 	display: none;
@@ -324,6 +324,182 @@ li:hover {
 	cursor: pointer;
 }
 
+/*****************  MODAL ajout  *****************/
+
+.modal-add-container {
+	display: none;
+	position: fixed;
+	top: 0;
+	width: 100vw;
+	height: 100vh;
+	margin: 0;
+  }
+  
+  .modal-add-container.active {
+	display: block;
+  }
+  
+  
+  .modal-add {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 630px;
+    min-width: 630px;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 5px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.back-to-edit-modal {
+	padding: 8px 10px;
+	border: none;
+	font-size: 18px;
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	cursor: pointer;
+	background-color: transparent;
+}
+
+  .modal-add h2 {
+	margin-bottom: 2rem;
+	font-family: 'Work Sans';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 26px;
+	line-height: 30px;
+	text-align: center;
+	color: #000000;
+  }
+  
+  .modal-add label {
+	margin-bottom: 0.5rem;
+	font-family: 'Work Sans';
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 16px;
+	color: #3D3D3D;
+  }
+  
+  .modal-add input[type="text"],
+  .modal-add textarea,
+  .modal-add select {
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	height: 50px;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	padding-left: 10px;
+	font-family: 'Syne';
+	font-weight: 400;
+	font-size: 14px;
+	font-style: normal;
+  }
+  
+  .modal-add input[type="submit"] {
+	width: 179px;
+	height: 36px;
+	background: #1D6154;
+	border-radius: 60px;
+	border: none;
+	font-family: 'Syne';
+	font-style: normal;
+	font-weight: 700;
+	font-size: 14px;
+	line-height: 19px;
+	color: #FFFFFF;
+	margin-top: 2rem;
+	margin-bottom: 1.5rem;
+	align-self: center;
+	cursor: pointer;
+  }
+  
+  .modal-add input[type="file"] {
+	display: block;
+	margin-bottom: 1rem;
+  }
+
+  #add-work-form {
+	display: flex;
+	flex-direction: column;
+	width: 70%;
+  }
+  
+  .load-img {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 150px;
+	border: solid 1px #B3B3B3;
+	background-color: #E8F1F6;
+	padding: 1rem;
+	margin-bottom: 1rem;
+	max-height: 300px;
+	position: relative;
+  }
+  
+  .load-img label {
+	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+  .load-img img {
+	max-height: 100%;
+	max-width: 100%;
+	object-fit: cover;
+	position: absolute;
+	top: 0;
+  }
+  
+  .fa-image {
+	font-size: 4rem;
+	color: #B3B3B3;
+  }
+
+  .add-photo {
+	cursor: pointer;
+	font-size: 18px;
+	font-weight: bold;
+	background-color: #CBD6DC;
+	color: #306685;
+	padding: 10px 20px;
+	border-radius: 25px;
+	border: none;
+	margin: 10px;
+  }
+
+  .add-work-trigger {
+	cursor: pointer;
+	font-size: 18px;
+	font-weight: bold;
+	background-color: #1D6154;
+	color: white;
+	padding: 10px 20px;
+	border-radius: 5px;
+	border: none;
+	margin: 10px;
+  }
+  
+  .add-work-trigger:hover {
+	background-color: #0f453c;
+  }
+
+  .border-modal {
+	border-bottom: solid 1px #B3B3B3;
+	margin-top: 2rem;
+  }
+  
 
 #introduction {
 	display: flex;
