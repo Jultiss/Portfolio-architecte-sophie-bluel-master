@@ -211,7 +211,12 @@ async function deleteWork() {
 
   if (response.ok) {
     const work = document.querySelector(`[data-id="${workId}"]`);
-    work.remove();
+    if (work) {
+      work.remove();
+      alert('Projet supprimé !');
+    } else {
+      console.log(`Element with data-id="${workId}" not found`);
+    }
   } else {
     alert('Une erreur est survenue lors de la suppression du projet.');
   }
@@ -251,25 +256,51 @@ closeAddModalBtn.addEventListener('click', () => {
 
 //Ajout d'un projet //
 const addWorkForm = document.getElementById('add-work-form');
+const loadImgContainer2 = document.querySelector('.load-img');
+
+// Ajouter un événement pour l'affichage de l'aperçu de l'image sélectionnée
+const imageInput = document.getElementById('image');
+imageInput.addEventListener('input', function () {
+  const imageFile = this.files[0];
+  if (imageFile) {
+    const reader = new FileReader();
+    reader.addEventListener('load', function () {
+      const imgPreview = document.createElement('img');
+      imgPreview.src = this.result;
+      loadImgContainer2.innerHTML = '';
+      loadImgContainer2.appendChild(imgPreview);
+      addPhotoLabel.textContent = '+ Changer photo';
+    });
+    reader.readAsDataURL(imageFile);
+  }
+});
 
 addWorkForm.addEventListener('submit', (e) => {
   e.preventDefault();
 
-  const formData = new FormData(addWorkForm);
   const authToken = localStorage.getItem("userToken");
   const url = 'http://localhost:5678/api/works';
+  const formData = new FormData();
+
+  // Ajouter les données du formulaire à l'objet FormData
+  const title = document.getElementById('title').value;
+  const category = document.getElementById('category').value;
+  const image = imageInput.files[0];
+  formData.append('title', title);
+  formData.append('category', category);
+  formData.append('image', image);
 
   fetch(url, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
       Authorization: `Bearer ${authToken}`
-
     },
     body: formData
   })
   .then(response => {
     if (response.ok) {
+      alert('Projet ajouté !');
       return response.json();
     } else {
       throw new Error('Une erreur est survenue');
