@@ -199,7 +199,6 @@ function displayWorkModal(data) {
   });
 }
 
-
 async function deleteWork() {
   const workId = this.parentElement.parentElement.dataset.id;
   const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
@@ -211,7 +210,6 @@ async function deleteWork() {
   });
 
   if (response.ok) {
-    alert('Projet supprimé : ' + workId);
     const work = document.querySelector(`[data-id="${workId}"]`);
     work.remove();
   } else {
@@ -240,23 +238,6 @@ addWorkTriggerEl.addEventListener("click", () => {
   }
 });
 
-// Afficher l'aperçu de l'image sélectionnée
-const imageInput = document.getElementById('image');
-imageInput.addEventListener('change', function () {
-  const imageFile = this.files[0];
-  if (imageFile) {
-    const reader = new FileReader();
-    reader.addEventListener('load', function () {
-      const imgPreview = document.createElement('img');
-      imgPreview.src = this.result;
-      loadImgContainer.innerHTML = '';
-      loadImgContainer.appendChild(imgPreview);
-      addPhotoLabel.textContent = '+ Changer photo';
-    });
-    reader.readAsDataURL(imageFile);
-  }
-});
-
 // Fermeture modale d'ajout d'un projet et retour sur Modale édition //
 backToEditModalBtn.addEventListener('click', () => {
   addModalEl.classList.remove('active');
@@ -266,5 +247,43 @@ backToEditModalBtn.addEventListener('click', () => {
 closeAddModalBtn.addEventListener('click', () => {
   addModalEl.classList.remove('active');
   editModalEl.classList.add('active');
+});
+
+//Ajout d'un projet //
+const addWorkForm = document.getElementById('add-work-form');
+
+addWorkForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  const formData = new FormData(addWorkForm);
+  const authToken = localStorage.getItem("userToken");
+  const url = 'http://localhost:5678/api/works';
+
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      Authorization: `Bearer ${authToken}`
+
+    },
+    body: formData
+  })
+  .then(response => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error('Une erreur est survenue');
+    }
+  })
+  .then(data => {
+    console.log(data);
+    // Fermer la modale d'ajout
+    addModalEl.classList.remove('active');
+    // Recharger la liste des projets
+    loadWorks();
+  })
+  .catch(error => {
+    console.error(error);
+  });
 });
 
