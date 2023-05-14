@@ -1,4 +1,4 @@
-// Works import from API //
+// Importer les travaux depuis l'API //
 let loadedData = [];
 
 async function loadWorks() {
@@ -24,7 +24,7 @@ function displayWork(data) {
 
 loadWorks();
 
-// Category import from API //
+// Importer les catégories depuis l'API //
 
 async function loadCategory() {
   const response = await fetch("http://localhost:5678/api/categories");
@@ -32,7 +32,7 @@ async function loadCategory() {
   displayCategory(loadedData);
 }
 
-// filter works //
+// Filtrer les travaux //
 
 const filterWorks = document.querySelector("#filter-works-all");
 const filterWorksObjets = document.querySelector("#filter-works-Object");
@@ -44,7 +44,7 @@ filterWorks.addEventListener("click", function () {
 });
 
 filterWorksObjets.addEventListener("click", function() {
-  const filteredData = loadedData.filter(item => item.category.id === 1); 
+  const filteredData = loadedData.filter(item => item.category.id === 1);
   displayWork(filteredData);
 });
 
@@ -58,7 +58,7 @@ filterWorksHR.addEventListener("click", function() {
   displayWork(filteredData);
 });
 
-// display banner User Connecté //
+// Affichage de la bannière quand l'utilisateur est connecté //
 
 function showUserBanner() {
   const userToken = localStorage.getItem("userToken");
@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-// Modal Edition Travaux //
+// Ouverture de la fenêtre modale d'édition des travaux //
 
 const modalContainer = document.querySelector(".modal-container");
 const modalTriggers = document.querySelectorAll(".modal-trigger");
@@ -177,7 +177,7 @@ function displayWorkModal(data) {
   const deleteIcons = modalGalleryEl.querySelectorAll(".delete-icon");
   deleteIcons.forEach(icon => icon.addEventListener("click", deleteWork));
 
-  // Attache l'événement de suppression à la galerie elle-même
+  // Attache l'événement de suppression à la galerie
   modalGalleryEl.addEventListener('click', (event) => {
     if (event.target.classList.contains('delete-icon')) {
       deleteWork.call(event.target);
@@ -284,9 +284,9 @@ imageInput.addEventListener('input', function () {
 });
 
 addWorkForm.addEventListener('submit', async (e) => {
-  // Check if alert is shown
+  // Vérifier l'état de l'alerte
   if (localStorage.getItem('alertState')) {
-    e.preventDefault(); // Prevent form submission if an alert is shown
+    e.preventDefault(); // Empêcher l'envoi du formulaire
   } else {
     e.preventDefault();
 
@@ -329,7 +329,7 @@ addWorkForm.addEventListener('submit', async (e) => {
   }
 });
 
-// Fonction Alert //
+// Fonction permettant d'alerter suite supression ou ajout d'une photo //
 
 const alertBanner = document.getElementById('alert-banner');
 const alertMessage = document.getElementById('alert-message');
@@ -338,7 +338,6 @@ const alertOK = document.getElementById('alert-ok');
 function showAlert(message) {
   alertMessage.textContent = message;
   alertBanner.style.display = 'flex';
-  // Set alert state in localStorage to prevent page reload
   localStorage.setItem('alertState', JSON.stringify({ message, isSuccess: true }));
 }
 
