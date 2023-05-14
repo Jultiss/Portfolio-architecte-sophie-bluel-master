@@ -5,6 +5,11 @@ async function loadWorks() {
   const response = await fetch("http://localhost:5678/api/works");
   loadedData = await response.json();
   displayWork(loadedData);
+  const alertState = localStorage.getItem('alertState');
+  if (alertState) {
+    const { message, isSuccess } = JSON.parse(alertState);
+    showAlert(message, isSuccess);
+  }
 }
 
 function displayWork(data) {
@@ -150,25 +155,6 @@ function toggleModal() {
 }
 
 // Suppression d'un projet //
-async function deleteWork() {
-  console.log("Delete clicked");
-  const workId = this.parentElement.parentElement.parentElement.dataset.id;
-  const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('userToken')}`,
-    },
-  });
-
-  if (response.ok) {
-    console.log('Projet supprimé');
-    const work = document.querySelector(`[data-id="${workId}"]`);
-    work.remove();
-  } else {
-    alert('Une erreur est survenue lors de la suppression du projet.');
-  }
-}
 
 function displayWorkModal(data) {
   const modalGalleryEl = document.querySelector(".gallery-modal");
@@ -201,6 +187,12 @@ function displayWorkModal(data) {
 
 async function deleteWork() {
   const workId = this.parentElement.parentElement.dataset.id;
+
+  // Demander une confirmation avant de supprimer
+  const shouldDelete = window.confirm("Êtes-vous sûr de vouloir supprimer ce projet ?");
+  if (!shouldDelete) {
+    return; // Si l'utilisateur a cliqué sur "Annuler", arrêter la fonction
+  }
   const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
     method: 'DELETE',
     headers: {
@@ -213,14 +205,13 @@ async function deleteWork() {
     const work = document.querySelector(`[data-id="${workId}"]`);
     if (work) {
       work.remove();
-      alert('Projet supprimé !');
+      showAlert('Le projet a bien été supprimé !');
     } else {
-      console.log(`Element with data-id="${workId}" not found`);
-    }
-  } else {
-    alert('Une erreur est survenue lors de la suppression du projet.');
+    showAlert('Une erreur est survenue lors de la suppression du projet.');
   }
 }
+}
+
 
 // Ouverture modale d'ajout d'un projet //
 // Récupération des éléments HTML
@@ -247,11 +238,13 @@ addWorkTriggerEl.addEventListener("click", () => {
 backToEditModalBtn.addEventListener('click', () => {
   addModalEl.classList.remove('active');
   editModalEl.classList.add('active');
+  imageInput.value = '';
 });
 
 closeAddModalBtn.addEventListener('click', () => {
   addModalEl.classList.remove('active');
   editModalEl.classList.add('active');
+  imageInput.value = '';
 });
 
 //Ajout d'un projet //
@@ -263,6 +256,21 @@ const imageInput = document.getElementById('image');
 imageInput.addEventListener('input', function () {
   const imageFile = this.files[0];
   if (imageFile) {
+    // Contrôle de la taille du fichier
+    const maxSize = 4 * 1024 * 1024; // 4Mo
+    if (imageFile.size > maxSize) {
+      alert('La taille du fichier est trop grande. La taille maximale autorisée est de 4Mo.');
+      this.value = ''; // réinitialiser l'input
+      return;
+    }
+
+    // Contrôle du type de fichier
+    if (imageFile.type !== 'image/jpeg' && imageFile.type !== 'image/jpg' && imageFile.type !== 'image/png') {
+      alert('Type de fichier non autorisé. Seuls les fichiers .jpg, .jpeg et .png sont acceptés.');
+      this.value = ''; // réinitialiser l'input
+      return;
+    }
+    
     const reader = new FileReader();
     reader.addEventListener('load', function () {
       const imgPreview = document.createElement('img');
@@ -275,46 +283,71 @@ imageInput.addEventListener('input', function () {
   }
 });
 
-addWorkForm.addEventListener('submit', (e) => {
-  e.preventDefault();
+addWorkForm.addEventListener('submit', async (e) => {
+  // Check if alert is shown
+  if (localStorage.getItem('alertState')) {
+    e.preventDefault(); // Prevent form submission if an alert is shown
+  } else {
+    e.preventDefault();
 
-  const authToken = localStorage.getItem("userToken");
-  const url = 'http://localhost:5678/api/works';
-  const formData = new FormData();
+    const authToken = localStorage.getItem("userToken");
+    const url = 'http://localhost:5678/api/works';
+    const formData = new FormData();
 
-  // Ajouter les données du formulaire à l'objet FormData
-  const title = document.getElementById('title').value;
-  const category = document.getElementById('category').value;
-  const image = imageInput.files[0];
-  formData.append('title', title);
-  formData.append('category', category);
-  formData.append('image', image);
+    // Ajouter les données du formulaire à l'objet FormData
+    const title = document.getElementById('title').value;
+    const category = document.getElementById('category').value;
+    const image = imageInput.files[0];
+    formData.append('title', title);
+    formData.append('category', category);
+    formData.append('image', image);
 
-  fetch(url, {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      Authorization: `Bearer ${authToken}`
-    },
-    body: formData
-  })
-  .then(response => {
-    if (response.ok) {
-      alert('Projet ajouté !');
-      return response.json();
-    } else {
-      throw new Error('Une erreur est survenue');
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          Authorization: `Bearer ${authToken}`
+        },
+        body: formData
+      });
+
+      if (response.ok) {
+        showAlert('Le projet a bien été ajouté !');
+        const data = await response.json();
+        console.log(data);
+        // Fermer la modale d'ajout
+        addModalEl.classList.remove('active');
+        // Recharger la liste des projets
+        await loadWorks();
+      } else {
+        showAlert('Une erreur est survenue lors de l\'ajout du projet.');
+      }
+    } catch (error) {
+      console.error(error);
     }
-  })
-  .then(data => {
-    console.log(data);
-    // Fermer la modale d'ajout
-    addModalEl.classList.remove('active');
-    // Recharger la liste des projets
-    loadWorks();
-  })
-  .catch(error => {
-    console.error(error);
-  });
+  }
 });
 
+// Fonction Alert //
+
+const alertBanner = document.getElementById('alert-banner');
+const alertMessage = document.getElementById('alert-message');
+const alertOK = document.getElementById('alert-ok');
+
+function showAlert(message) {
+  alertMessage.textContent = message;
+  alertBanner.style.display = 'flex';
+  // Set alert state in localStorage to prevent page reload
+  localStorage.setItem('alertState', JSON.stringify({ message, isSuccess: true }));
+}
+
+alertOK.addEventListener('click', () => {
+  alertBanner.classList.add('slideUp');
+  setTimeout(() => {
+    alertBanner.style.display = 'none';
+    alertBanner.classList.remove('slideUp');
+    localStorage.removeItem('alertState'); 
+    location.reload(); 
+  }, 500); 
+});
