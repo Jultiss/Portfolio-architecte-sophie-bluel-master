@@ -290,6 +290,13 @@ addWorkForm.addEventListener('submit', async (e) => {
   } else {
     e.preventDefault();
 
+    // Vérifier si l'utilisateur a chargé une image
+    const image = imageInput.files[0];
+    if (!image) {
+      alert('Vous devez charger une image.');
+      return;
+    }
+
     const authToken = localStorage.getItem("userToken");
     const url = 'http://localhost:5678/api/works';
     const formData = new FormData();
@@ -297,7 +304,6 @@ addWorkForm.addEventListener('submit', async (e) => {
     // Ajouter les données du formulaire à l'objet FormData
     const title = document.getElementById('title').value;
     const category = document.getElementById('category').value;
-    const image = imageInput.files[0];
     formData.append('title', title);
     formData.append('category', category);
     formData.append('image', image);
