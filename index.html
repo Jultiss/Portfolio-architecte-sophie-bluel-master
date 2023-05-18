@@ -54,12 +54,14 @@
 					<form id="add-work-form">
 						<div class="load-img">
 							<label for="image">
-							<img id="image-preview" src="#" alt="Aperçu de l'image" style="display: none;">
-							<i class="fa-regular fa-image"></i>
-							<span class="add-photo">+ Ajouter photo</span>
-							</label>
-							<input type="file" name="image" id="image" accept=".jpg,.jpeg,.png" style="display: none;">
-							<p>jpg, png : 4mo max</p>
+							<img id="image-preview" class= "hidden" src="#" alt="Aperçu de l'image">
+							<div id="load-init">
+								<i class="fa-regular fa-image"></i>
+								<span class="add-photo">+ Ajouter photo</span>
+								</label>
+								<input type="file" name="image" id="image" accept=".jpg,.jpeg,.png" style="display: none;">
+								<p>jpg, png : 4mo max</p>
+							</div>
 						</div>
 						<label for="title">Titre</label>
 						<input type="text" required="required" name="title" id="title">

@@ -239,17 +239,23 @@ backToEditModalBtn.addEventListener('click', () => {
   addModalEl.classList.remove('active');
   editModalEl.classList.add('active');
   imageInput.value = '';
+  loadImgContainer3.classList.remove('hidden');
+  imgPreview.classList.add('hidden');
 });
 
 closeAddModalBtn.addEventListener('click', () => {
   addModalEl.classList.remove('active');
   editModalEl.classList.add('active');
   imageInput.value = '';
+  loadImgContainer3.classList.remove('hidden');
+  imgPreview.classList.add('hidden');
 });
 
 //Ajout d'un projet //
 const addWorkForm = document.getElementById('add-work-form');
 const loadImgContainer2 = document.querySelector('.load-img');
+const loadImgContainer3 = document.querySelector('#load-init');
+const imgPreview = document.getElementById('image-preview');
 
 // Ajouter un événement pour l'affichage de l'aperçu de l'image sélectionnée
 const imageInput = document.getElementById('image');
@@ -272,12 +278,11 @@ imageInput.addEventListener('input', function () {
     }
     
     const reader = new FileReader();
+
     reader.addEventListener('load', function () {
-      const imgPreview = document.createElement('img');
       imgPreview.src = this.result;
-      loadImgContainer2.innerHTML = '';
-      loadImgContainer2.appendChild(imgPreview);
-      addPhotoLabel.textContent = '+ Changer photo';
+      loadImgContainer3.classList.add('hidden');
+      imgPreview.classList.remove('hidden');
     });
     reader.readAsDataURL(imageFile);
   }
@@ -353,6 +358,6 @@ alertOK.addEventListener('click', () => {
     alertBanner.style.display = 'none';
     alertBanner.classList.remove('slideUp');
     localStorage.removeItem('alertState'); 
-    location.reload(); 
+    //location.reload(); 
   }, 500); 
 });
