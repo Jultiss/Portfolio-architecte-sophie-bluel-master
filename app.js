@@ -83,6 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const filters = document.getElementById('filters');
 
   // Configuration de l'icône et du libellé "modifier"
+
   editButton.id = 'edit-btn';
   editButton.className = 'fa-regular fa-pen-to-square', "btn-edit modal-trigger";
   editButton.style.cursor = 'pointer';
