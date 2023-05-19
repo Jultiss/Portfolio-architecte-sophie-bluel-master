@@ -241,6 +241,8 @@ backToEditModalBtn.addEventListener('click', () => {
   imageInput.value = '';
   loadImgContainer3.classList.remove('hidden');
   imgPreview.classList.add('hidden');
+  addPhotoLabel.classList.remove('hidden');
+
 });
 
 closeAddModalBtn.addEventListener('click', () => {
@@ -249,6 +251,7 @@ closeAddModalBtn.addEventListener('click', () => {
   imageInput.value = '';
   loadImgContainer3.classList.remove('hidden');
   imgPreview.classList.add('hidden');
+  addPhotoLabel.classList.remove('hidden');
 });
 
 //Ajout d'un projet //
@@ -283,6 +286,7 @@ imageInput.addEventListener('input', function () {
       imgPreview.src = this.result;
       loadImgContainer3.classList.add('hidden');
       imgPreview.classList.remove('hidden');
+      addPhotoLabel.classList.add('hidden');
     });
     reader.readAsDataURL(imageFile);
   }
